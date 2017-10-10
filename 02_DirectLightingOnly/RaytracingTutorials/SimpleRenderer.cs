@@ -99,7 +99,7 @@ namespace RaytracingTutorials
             return image;
         }*/
 
-        //Version 3: Pixel-Schatten mit Geometryterm und ohne Brdf
+        //Version 3: Pixel-Schatten mit Geometryterm und mit Brdf
         /*public Bitmap CreateBitmap()
         {
             Bitmap image = new Bitmap(this.width, this.height);

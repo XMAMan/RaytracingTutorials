@@ -19,3 +19,5 @@ D:\C#\52 Raytracing-Tutorials\02_DirectLightingOnly\RaytracingTutorials\bin\Rele
 D:\C#\52 Raytracing-Tutorials\02_DirectLightingOnly\RaytracingTutorials\obj\x86\Release\RaytracingTutorials.csprojResolveAssemblyReference.cache
 D:\C#\52 Raytracing-Tutorials\02_DirectLightingOnly\RaytracingTutorials\obj\x86\Release\RaytracingTutorials.Properties.Resources.resources
 D:\C#\52 Raytracing-Tutorials\02_DirectLightingOnly\RaytracingTutorials\obj\x86\Release\RaytracingTutorials.csproj.GenerateResource.Cache
+C:\Users\Enrico\Documents\GitHub\RaytracingTutorials\02_DirectLightingOnly\RaytracingTutorials\obj\x86\Release\RaytracingTutorials.exe
+C:\Users\Enrico\Documents\GitHub\RaytracingTutorials\02_DirectLightingOnly\RaytracingTutorials\obj\x86\Release\RaytracingTutorials.pdb
