@@ -62,16 +62,18 @@ namespace RaytracingTutorials
                     return eyePoint.Emission;
                 }
 
+                pathWeight = Vector.Mult(pathWeight, DiffuseBrdf.Evaluate(eyePoint));
+
                 //Direct Lighting
                 var lightPoint = data.LightSource.GetRandomPointOnLightSource(rand);
                 if (IsVisible(eyePoint.Position, lightPoint.Position))
                 {
-                    pixelColor += Vector.Mult(DiffuseBrdf.Evaluate(eyePoint), lightPoint.Color * GeometryTerm(eyePoint, lightPoint) / lightPoint.PdfA);
+                    pixelColor += Vector.Mult(pathWeight, lightPoint.Color * GeometryTerm(eyePoint, lightPoint) / lightPoint.PdfA);
                 }
 
                 //Final Gathering
                 Vector newDirection = DiffuseBrdf.SampleDirection(eyePoint.Normal, rand);
-                pathWeight = Vector.Mult(pathWeight * Vector.Dot(eyePoint.Normal, newDirection) / DiffuseBrdf.PdfW(eyePoint.Normal, newDirection), DiffuseBrdf.Evaluate(eyePoint));
+                pathWeight = pathWeight * Vector.Dot(eyePoint.Normal, newDirection) / DiffuseBrdf.PdfW(eyePoint.Normal, newDirection);
                 var finalGatherPoint = this.intersectionFinder.GetIntersectionPoint(new Ray(eyePoint.Position, newDirection));
 
                 if (finalGatherPoint != null)
