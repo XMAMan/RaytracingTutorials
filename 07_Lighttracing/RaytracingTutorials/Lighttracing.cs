@@ -28,7 +28,7 @@ namespace RaytracingTutorials
 
             Random rand = new Random(0);
 
-            int iterationCount = 10;
+            int iterationCount = 1;
 
             Vector[,] frames = new Vector[width, height];
 
@@ -93,7 +93,7 @@ namespace RaytracingTutorials
 
                 Ray ray = new Ray(point.Position, direction);
 
-                for (int k = 0; k < maxPathLength; k++)
+                for (int k = 1; k < maxPathLength; k++)
                 {
                     //Get next intersectionpoint with scene starting from old point-Position
                     point = this.intersectionFinder.GetIntersectionPoint(ray);
