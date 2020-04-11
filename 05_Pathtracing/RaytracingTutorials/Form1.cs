@@ -15,7 +15,7 @@ namespace RaytracingTutorials
         {
             InitializeComponent();
 
-            this.BackgroundImage = new SimpleRenderer(this.ClientSize.Width, this.ClientSize.Height).CreateBitmap();
+            this.BackgroundImage = new Pathtracing(this.ClientSize.Width, this.ClientSize.Height).CreateBitmap();
         }
     }
 }

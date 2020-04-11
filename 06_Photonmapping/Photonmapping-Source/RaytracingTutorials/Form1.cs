@@ -15,7 +15,7 @@ namespace RaytracingTutorials
         {
             InitializeComponent();
 
-            this.BackgroundImage = new SimpleRenderer(this.ClientSize.Width, this.ClientSize.Height).CreateBitmap();
+            this.BackgroundImage = new Photonmapping(this.ClientSize.Width, this.ClientSize.Height).CreateBitmap();
         }
     }
 }

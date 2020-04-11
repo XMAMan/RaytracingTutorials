@@ -72,7 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ray.cs" />
     <Compile Include="CornellBoxSceneData.cs" />
-    <Compile Include="SimpleRenderer.cs" />
+    <Compile Include="Photonmapping.cs" />
     <Compile Include="Triangle.cs" />
     <Compile Include="Vector.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
