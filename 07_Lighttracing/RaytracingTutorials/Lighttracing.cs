@@ -28,7 +28,7 @@ namespace RaytracingTutorials
 
             Random rand = new Random(0);
 
-            int iterationCount = 1;
+            int iterationCount = 10;
 
             Vector[,] frames = new Vector[width, height];
 
