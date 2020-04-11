@@ -28,7 +28,7 @@ namespace RaytracingTutorials
 
             Random rand = new Random(0);
 
-            int sampleCount = 100;
+            int sampleCount = 1;
 
             for (int x = 0; x < width; x++)
                 for (int y = 0; y < height; y++)
@@ -47,7 +47,14 @@ namespace RaytracingTutorials
 
         private Vector EstimateColorWithPathtracingWithNextEventEstimation(int x, int y, Random rand)
         {
-            Vector contributionSum = new Vector(0, 0, 0);
+            //This is the sum from all Pathcontributions from all Pathlenghts up to maxPathLength
+            //This means Contribution(C L) + Contribution(C D L) + Contribution(C D D L) + Contribution(C D D D L) + Contribution(C D D D D L)
+            //For Each Pathlength-Step, the Contribution from Brdf-Sampling and Lightsource-Sampling is added but only one from this two Sampling-Methods 
+            //will create a Contribution != 0. If you hit the Lightsource, then you only get the BrdfSampling-Contribution. The LightSource-Sampling-Contribution
+            //will be zero because if your running point is on the light and the light don't reflect any light, then you don't can create any more Lightpoints
+            //If you are on a Point in the Scene (Not Lightsoure) then only the Contribution from Lightsource-Sampling can be greater zero. The Brdf-Sampling
+            //Contribution (Pathtracing) will be zero.
+            Vector contributionSum = new Vector(0, 0, 0); 
 
             Ray primaryRay = data.Camera.GetPrimaryRay(x, y);
             float cosAtCamera = Vector.Dot(primaryRay.Direction, this.data.Camera.Forward);
@@ -59,21 +66,17 @@ namespace RaytracingTutorials
             int maxPathLength = 5;
             for (int i = 0; i < maxPathLength; i++)
             {
-                float pdfWOnLastPoint = pdfW;
                 IntersectionPoint point = this.intersectionFinder.GetIntersectionPoint(ray);
-                if (point == null)
-                {
-                    break;
-                }
+                if (point == null) break; //Ray leave the scene
 
-                //Try to add Contribution from Brdf-Sampling
+                //Try to add Contribution from Brdf-Sampling (This Brdf-Sampling is also called Pathtracing because you do this for every Pathpoint)
                 if (point.IsLocatedOnLightSource && Vector.Dot(point.Normal, -ray.Direction) > 0)
                 {
                     //This is the PdfA on the LightPoint, if you would use LightSource-Sampling, to reach from lastPoint(ray.Origin) to current point 'point'
                     float pdfAFromLightSourceSampling = data.LightSource.PdfA;
  
                     //This is the PdfA on the LightPoint, which you get from BrdfSampling to reach rom lastPoint(ray.Origin) to current point 'point'
-                    float pdfAFromBrdfSampling = pdfWOnLastPoint * Vector.Dot(point.Normal, -ray.Direction) / (ray.Origin - point.Position).SqrLength();
+                    float pdfAFromBrdfSampling = pdfW * Vector.Dot(point.Normal, -ray.Direction) / (ray.Origin - point.Position).SqrLength();
 
                     //We have used Brdf-Sampling. So the pdfAFromBrdfSampling is in the numerator
                     float misFactor = pdfAFromBrdfSampling / (pdfAFromLightSourceSampling + pdfAFromBrdfSampling);
@@ -84,7 +87,7 @@ namespace RaytracingTutorials
                     break; //The light don't reflect any light. So stop here with Pathtracing
                 }
 
-                //Try to add Contribution from Lightsource-Sampling
+                //Try to add Contribution from Lightsource-Sampling (This is the Next Event Estimation-Sampling)
                 contributionSum += GetContributionFromLightSourceSampling(point, rand, pathWeight);
 
                 //Stop with Russia Rollete
@@ -97,8 +100,7 @@ namespace RaytracingTutorials
                 pdfW = DiffuseBrdf.PdfW(point.Normal, direction) * continuationPdf;
                 float cosAtPoint = Math.Max(0, Vector.Dot(point.Normal, direction));
 
-                pathWeight = Vector.Mult(pathWeight, DiffuseBrdf.Evaluate(point)) * cosAtPoint / pdfW;
-
+                pathWeight = Vector.Mult(pathWeight, DiffuseBrdf.Evaluate(point)) * cosAtPoint / pdfW; //New Pathweight after Brdf-Sampling
                 ray = new Ray(point.Position, direction);
             }
 
